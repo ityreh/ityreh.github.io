@@ -1,1 +1,0 @@
-# ityreh.github.io
