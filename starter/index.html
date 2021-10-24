@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.3">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
     
     
       
@@ -18,7 +18,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.f7f47774.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.db9e7362.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -74,7 +74,9 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
+      
+
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="ityreh" class="md-header__button md-logo" aria-label="ityreh" data-md-component="logo">
       
@@ -162,11 +164,14 @@
     
     
   </nav>
+  
 </header>
     
     <div class="md-container" data-md-component="container">
       
       
+        
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -249,6 +254,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#django" class="md-nav__link">
+    Django
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#react-electron" class="md-nav__link">
     React Electron
   </a>
@@ -304,6 +316,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#django" class="md-nav__link">
+    Django
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#react-electron" class="md-nav__link">
     React Electron
   </a>
@@ -325,6 +344,43 @@
                 
                 <h1 id="starter">Starter</h1>
 <p>The starters help you kick off into a project so you can get started right away.</p>
+<h2 id="django">Django</h2>
+<p>TODO:</p>
+<ul>
+<li>cookiecutter for project layout templating?</li>
+<li>django-environ?</li>
+</ul>
+<p>Initialize your django application in your project folder and change base layout.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>django-admin startproject config
+mv ./config/manage.py .
+mv ./config/config/* ./config
+rm -R ./config/config
+</code></pre></div>
+</td></tr></table>
+<p>Create multiple environment specific settings and requirements files.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>mkdir ./config/settings
+touch ./config/settings/__init__.py
+mv ./config/settings.py ./config/settings/base.py
+</code></pre></div>
+</td></tr></table>
+<p>You can create specific settings which imports <code>base.py</code>, eg. <code>local.py</code>, <code>staging.py</code> or <code>production.py</code>:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>from .base import *
+
+...
+</code></pre></div>
+</td></tr></table>
+<p><a href="">Do the same with your requirements</a>.</p>
+<p>Start an app:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>python manage.py startapp &lt;app_name&gt;
+</code></pre></div>
+</td></tr></table>
 <h2 id="react-electron">React Electron</h2>
 <p>Initialize your react client in your project folder and cd into the client folder.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -382,7 +438,7 @@ npm install electron-is-dev
 <span class="kd">const</span> <span class="nx">isDev</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s2">&quot;electron-is-dev&quot;</span><span class="p">);</span>
 
 <span class="kd">function</span> <span class="nx">createWindow</span><span class="p">()</span> <span class="p">{</span>
-  <span class="kd">const</span> <span class="nx">win</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BrowserWindow</span><span class="p">({</span>
+  <span class="kd">const</span> <span class="nx">win</span> <span class="o">=</span> <span class="ow">new</span> <span class="nx">BrowserWindow</span><span class="p">({</span>
     <span class="nx">width</span><span class="o">:</span> <span class="mf">800</span><span class="p">,</span>
     <span class="nx">height</span><span class="o">:</span> <span class="mf">600</span><span class="p">,</span>
     <span class="nx">webPreferences</span><span class="o">:</span> <span class="p">{</span>
@@ -498,10 +554,12 @@ npm install electron-is-dev
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
         
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
         
       </div>
       
@@ -513,10 +571,10 @@ npm install electron-is-dev
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.709b4209.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.29db7785.min.js"></script>
+      <script src="../assets/javascripts/bundle.1e84347e.min.js"></script>
       
     
   </body>
