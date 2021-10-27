@@ -14,7 +14,7 @@
     
     
       
-        <title>Setup local development environment databases - ityreh</title>
+        <title>Language - ityreh</title>
       
     
     
@@ -65,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#setup-local-development-environment-databases" class="md-skip">
+        <a href="#best-practices-for-some-programming-languages" class="md-skip">
           Skip to content
         </a>
       
@@ -97,7 +97,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Setup local development environment databases
+              Language
             
           </span>
         </div>
@@ -236,6 +236,119 @@
   
   
     <li class="md-nav__item">
+      <a href="../vcs/" class="md-nav__link">
+        VCS
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Language
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Language
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#python" class="md-nav__link">
+    Python
+  </a>
+  
+    <nav class="md-nav" aria-label="Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dependency-management-with-requirement-files" class="md-nav__link">
+    Dependency management with requirement files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../database/" class="md-nav__link">
+        Database
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../integration/" class="md-nav__link">
+        Integration
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../about/" class="md-nav__link">
         About
       </a>
@@ -269,9 +382,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#postgresql" class="md-nav__link">
-    PostgreSQL
+  <a href="#python" class="md-nav__link">
+    Python
   </a>
+  
+    <nav class="md-nav" aria-label="Python">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dependency-management-with-requirement-files" class="md-nav__link">
+    Dependency management with requirement files
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -288,12 +414,30 @@
               
                 
                 
-                <h1 id="setup-local-development-environment-databases">Setup local development environment databases</h1>
-<h2 id="postgresql">PostgreSQL</h2>
+                <h1 id="best-practices-for-some-programming-languages">Best practices for some programming languages</h1>
+<p>This article is about best practices and usefull hints that are specific to a programming language.</p>
+<h2 id="python">Python</h2>
 <p>TODO:</p>
 <ul>
-<li>https://towardsdatascience.com/local-development-set-up-of-postgresql-with-docker-c022632f13ea</li>
+<li>virtualenv, virtualenvwrapper</li>
 </ul>
+<h3 id="dependency-management-with-requirement-files">Dependency management with requirement files</h3>
+<p>You can write a <code>requirements.txt</code> to manage your project dependencies. Write it in the form</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>&lt;package_name&gt;=&lt;version&gt;
+</code></pre></div>
+</td></tr></table>
+<p>or you can write use pip</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>pip freeze &gt; requirements.txt
+</code></pre></div>
+</td></tr></table>
+<p>Sometimes it is usefull to have multiple requirement files, eg. for different stages like <code>requriements/local.txt</code>, <code>requirements/staging.txt</code> and <code>requirements/production.txt</code>. This files can import a <code>requirements/base.txt</code> file, which includes packages that are used in all stages.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>-r base.txt
+
+...
+</code></pre></div>
+</td></tr></table>
                 
               
               
@@ -309,6 +453,41 @@
       
         
 <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../vcs/" class="md-footer__link md-footer__link--prev" aria-label="Previous: VCS" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              VCS
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../database/" class="md-footer__link md-footer__link--next" aria-label="Next: Database" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Database
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
