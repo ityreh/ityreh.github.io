@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.5">
     
     
       
@@ -18,7 +18,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.db9e7362.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.cdeb8541.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -285,6 +285,8 @@
       </a>
       
         
+
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -369,6 +371,8 @@
                 <div class="md-sidebar__scrollwrap">
                   <div class="md-sidebar__inner">
                     
+
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -425,7 +429,7 @@
 mkdir <span class="si">${</span><span class="nv">home</span><span class="si">}</span>/postgres-data
 </code></pre></div>
 </td></tr></table>
-<p>Copy the setup to a script e.g. in a bin folder in your project <code>bin/setup-local-test.sh</code>.</p>
+<p>Copy the setup to a script e.g. in a bin folder in your project <code>bin/setup-local-test.sh</code> or if you are in a Python project the perfect place is the postactivate script of the virtualenv.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -447,28 +451,74 @@ mkdir <span class="si">${</span><span class="nv">home</span><span class="si">}</
 <span class="normal">19</span>
 <span class="normal">20</span>
 <span class="normal">21</span>
-<span class="normal">22</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh</span>
 
 <span class="c1"># Database</span>
 <span class="nb">export</span> <span class="nv">DATABASE_DEFAULT_NAME</span><span class="o">=</span>ecom-dev-db
 <span class="nb">export</span> <span class="nv">DATABASE_DEFAULT_USER</span><span class="o">=</span>postgres
-<span class="nb">export</span> <span class="nv">DATABASE_DEFAULT_PASSWORD</span><span class="o">=</span>Passw0rd!
+<span class="nb">export</span> <span class="nv">DATABASE_DEFAULT_PASSWORD</span><span class="o">=</span>Start123!
 <span class="nb">export</span> <span class="nv">DATABASE_DEFAULT_HOST</span><span class="o">=</span>localhost
 <span class="nb">export</span> <span class="nv">DATABASE_DEFAULT_PORT</span><span class="o">=</span><span class="m">5432</span>
 
-docker run <span class="se">\</span>
-    -d --name <span class="nv">$DATABASE_DEFAULT_NAME</span> <span class="se">\</span>
+
+<span class="nv">postgres_container</span><span class="o">=</span><span class="k">$(</span> docker ps -aqf <span class="nv">name</span><span class="o">=</span>ecom-dev-db <span class="k">)</span>
+<span class="nv">postgres_container_running</span><span class="o">=</span><span class="k">$(</span> docker inspect --format<span class="o">=</span><span class="s2">&quot;{{.State.Running}}&quot;</span> ecom-dev-db <span class="k">)</span>
+
+<span class="k">if</span> <span class="nv">$postgres_container_running</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="s2">&quot;Container postgres is running: </span><span class="nv">$postgres_container</span><span class="s2">&quot;</span>
+<span class="k">elif</span> <span class="o">[[</span> -n <span class="s2">&quot;</span><span class="nv">$postgres_container</span><span class="s2">&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="s2">&quot;Container postgres is stopped, starting container.&quot;</span>
+  docker start <span class="nv">$postgres_container</span>
+<span class="k">else</span>
+  <span class="nb">echo</span> <span class="s2">&quot;Container postgres not exists, creating new container.&quot;</span>
+  docker run -d <span class="se">\</span>
+    --name <span class="nv">$DATABASE_DEFAULT_NAME</span> <span class="se">\</span>
     -e <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span><span class="nv">$DATABASE_DEFAULT_PASSWORD</span> <span class="se">\</span>
     -v <span class="si">${</span><span class="nv">HOME</span><span class="si">}</span>/postgres-data/:/var/lib/postgresql/data <span class="se">\</span>
     -p <span class="nv">$DATABASE_DEFAULT_PORT</span>:<span class="nv">$DATABASE_DEFAULT_PORT</span> <span class="se">\</span>
-        <span class="nv">$DATABASE_DEFAULT_USER</span>
+    <span class="nv">$DATABASE_DEFAULT_USER</span>
+<span class="k">fi</span>
 
-docker run <span class="se">\</span>
+<span class="nv">pgadmin_container</span><span class="o">=</span><span class="k">$(</span> docker ps -aqf <span class="nv">name</span><span class="o">=</span>pgadmin-dev <span class="k">)</span>
+<span class="nv">pgadmin_container_running</span><span class="o">=</span><span class="k">$(</span> docker inspect --format<span class="o">=</span><span class="s2">&quot;{{.State.Running}}&quot;</span> pgadmin-dev <span class="k">)</span>
+
+<span class="k">if</span> <span class="nv">$pgadmin_container_running</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="s2">&quot;Container pgadmin is running: </span><span class="nv">$pgadmin_container</span><span class="s2">&quot;</span>
+<span class="k">elif</span> <span class="o">[[</span> -n <span class="s2">&quot;</span><span class="nv">$pgadmin_container</span><span class="s2">&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="s2">&quot;Container pgadmin is stopped, starting container.&quot;</span>
+  docker start <span class="nv">$pgadmin_container</span>
+<span class="k">else</span>
+  <span class="nb">echo</span> <span class="s2">&quot;Container pgadmin not exists, creating new container.&quot;</span>
+  docker run <span class="se">\</span>
     -p <span class="m">80</span>:80 <span class="se">\</span>
     -e <span class="s1">&#39;PGADMIN_DEFAULT_EMAIL=admin@test.local&#39;</span> <span class="se">\</span>
     -e <span class="s1">&#39;PGADMIN_DEFAULT_PASSWORD=Passw0rd!&#39;</span> <span class="se">\</span>
     --name pgadmin-dev <span class="se">\</span>
     -d dpage/pgadmin4
+<span class="k">fi</span>
 </code></pre></div>
 </td></tr></table>
 <p>When the containers are up and running, you can get the IPAdress of your postgresql server with the following command.
