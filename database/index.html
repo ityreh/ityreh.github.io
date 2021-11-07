@@ -10,7 +10,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.5">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
     
     
       
@@ -18,7 +18,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.cdeb8541.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.a57b2b03.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -474,7 +474,10 @@ mkdir <span class="si">${</span><span class="nv">home</span><span class="si">}</
 <span class="normal">42</span>
 <span class="normal">43</span>
 <span class="normal">44</span>
-<span class="normal">45</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh</span>
 
 <span class="c1"># Database</span>
 <span class="nb">export</span> <span class="nv">DATABASE_DEFAULT_NAME</span><span class="o">=</span>ecom-dev-db
@@ -487,7 +490,7 @@ mkdir <span class="si">${</span><span class="nv">home</span><span class="si">}</
 <span class="nv">postgres_container</span><span class="o">=</span><span class="k">$(</span> docker ps -aqf <span class="nv">name</span><span class="o">=</span>ecom-dev-db <span class="k">)</span>
 <span class="nv">postgres_container_running</span><span class="o">=</span><span class="k">$(</span> docker inspect --format<span class="o">=</span><span class="s2">&quot;{{.State.Running}}&quot;</span> ecom-dev-db <span class="k">)</span>
 
-<span class="k">if</span> <span class="nv">$postgres_container_running</span><span class="p">;</span> <span class="k">then</span>
+<span class="k">if</span> <span class="o">[[</span> -n <span class="s2">&quot;</span><span class="nv">$postgres_container_running</span><span class="s2">&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
   <span class="nb">echo</span> <span class="s2">&quot;Container postgres is running: </span><span class="nv">$postgres_container</span><span class="s2">&quot;</span>
 <span class="k">elif</span> <span class="o">[[</span> -n <span class="s2">&quot;</span><span class="nv">$postgres_container</span><span class="s2">&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
   <span class="nb">echo</span> <span class="s2">&quot;Container postgres is stopped, starting container.&quot;</span>
@@ -505,7 +508,7 @@ mkdir <span class="si">${</span><span class="nv">home</span><span class="si">}</
 <span class="nv">pgadmin_container</span><span class="o">=</span><span class="k">$(</span> docker ps -aqf <span class="nv">name</span><span class="o">=</span>pgadmin-dev <span class="k">)</span>
 <span class="nv">pgadmin_container_running</span><span class="o">=</span><span class="k">$(</span> docker inspect --format<span class="o">=</span><span class="s2">&quot;{{.State.Running}}&quot;</span> pgadmin-dev <span class="k">)</span>
 
-<span class="k">if</span> <span class="nv">$pgadmin_container_running</span><span class="p">;</span> <span class="k">then</span>
+<span class="k">if</span> <span class="o">[[</span> -n <span class="s2">&quot;</span><span class="nv">$pgadmin_container_running</span><span class="s2">&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
   <span class="nb">echo</span> <span class="s2">&quot;Container pgadmin is running: </span><span class="nv">$pgadmin_container</span><span class="s2">&quot;</span>
 <span class="k">elif</span> <span class="o">[[</span> -n <span class="s2">&quot;</span><span class="nv">$pgadmin_container</span><span class="s2">&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
   <span class="nb">echo</span> <span class="s2">&quot;Container pgadmin is stopped, starting container.&quot;</span>
@@ -519,6 +522,9 @@ mkdir <span class="si">${</span><span class="nv">home</span><span class="si">}</
     --name pgadmin-dev <span class="se">\</span>
     -d dpage/pgadmin4
 <span class="k">fi</span>
+
+<span class="nv">db_info</span><span class="o">=</span><span class="k">$(</span> docker inspect ecom-dev-db -f <span class="s2">&quot;{{json .NetworkSettings.Networks }}&quot;</span> <span class="k">)</span>
+<span class="nb">echo</span> <span class="nv">$db_info</span>
 </code></pre></div>
 </td></tr></table>
 <p>When the containers are up and running, you can get the IPAdress of your postgresql server with the following command.
@@ -600,10 +606,10 @@ Use it to connect with your local DB in pgadmin.</p>
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.1e84347e.min.js"></script>
+      <script src="../assets/javascripts/bundle.b1047164.min.js"></script>
       
     
   </body>
